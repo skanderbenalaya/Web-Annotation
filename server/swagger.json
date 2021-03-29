@@ -1,0 +1,29 @@
+{
+    "swagger": "2.0",
+    "info": {
+    "version": "1.0.0",
+    "title": "web annotation",
+    "description": "Manage Chatbot's entries, assign correct topics & answers to questions",
+    "license": {
+    "name": "ISC",
+    "url": "https://opensource.org/licenses/ISC"
+    }
+    },
+    "host": "localhost:3000",
+    "basePath": "/",
+    "tags": [
+    {
+    "name": "Questions",
+    "description": "API for questions in MongoDB"
+    }
+    ],
+    "schemes": [
+    "http"
+    ],
+    "consumes": [
+    "application/json"
+    ],
+    "produces": [
+    "application/json"
+    ]
+    }
