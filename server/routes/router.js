@@ -8,25 +8,27 @@ const topicCtrl = require("../controllers/topic.controller");
 
 const router = express.Router();
 
-router.get("/topic", topicCtrl.getOnlyTopics);
-router.put("/topic/:topic", topicCtrl.modifyTopic);
-router.delete("/topic/:topic", topicCtrl.deleteTopic);
+// router.post("/topic/", topicCtrl.addTopic);   //prod **
+router.get("/topic", topicCtrl.getOnlyTopics);   //prod
+router.put("/topic/:topic", topicCtrl.modifyTopic);   //prod **
+router.delete("/topic/:topic", topicCtrl.deleteTopic);   //prod *
 
+router.post("/question/", questionCtrl.addQuestion);   //prod *
 router.get("/question/all", questionCtrl.getAllQuestions);
-router.get("/question", questionCtrl.getQuestion);
+router.get("/question", questionCtrl.getQuestion);   //prod
 router.get("/question/valid", questionCtrl.getValidQuestions);
 router.get("/question/ignored", questionCtrl.getIgnoredQuestions);
-router.post("/question/", questionCtrl.addQuestion);
-router.put("/question/validate/:id", questionCtrl.validateQuestion);
-router.put("/question/ignore/:id", questionCtrl.ignoreQuestion);
+router.put("/question/ignore/:id", questionCtrl.ignoreQuestion);   //prod
+router.put("/question/validate/:id", questionCtrl.validateQuestion);   //prod
 router.delete("/question/:id", questionCtrl.removeQuestion);
 router.delete("/answer/question/:id", questionCtrl.popQuestion);
-router.put("/answer/question/:id", questionCtrl.insertQuestion);
+router.put("/answer/question/:id", questionCtrl.insertQuestion);   //prod
 
+// router.post("/answer", answerCtrl.addTopic);   //prod **
 router.get("/answer/all", answerCtrl.getAll);
-router.get("/answer/topic/:topic", answerCtrl.getAnswersbyTopic);
+router.get("/answer/topic/:topic", answerCtrl.getAnswersbyTopic);   //prod
 router.get("/answer/:id", answerCtrl.getAnswerById);
-router.put("/answer/:id", answerCtrl.modifyAnswer);
-router.delete("/answer/:id", answerCtrl.deleteAnswer);
+router.put("/answer/:id", answerCtrl.modifyAnswer);   //prod *
+router.delete("/answer/:id", answerCtrl.deleteAnswer);   //prod *
 
 module.exports = router;

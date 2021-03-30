@@ -16,18 +16,22 @@ getAll = async (req, res) => {
 
 getAnswersbyTopic = async (req, res) => {
   await answers
-    .find({ topic: req.params.topic }, { answer: 1 }, (err, answer) => {
-      if (err) {
-        return res.status(400).json({ success: false, error: err });
+    .find(
+      { topic: req.params.topic },
+      { A_id: 1, answer: 1 },
+      (err, answer) => {
+        if (err) {
+          return res.status(400).json({ success: false, error: err });
+        }
+        if (!answer.length) {
+          return res
+            .status(404)
+            .json({ success: false, error: `No answers found` });
+        }
+        console.log("Number of answers", answer.length);
+        return res.status(200).json({ success: true, data: answer });
       }
-      if (!answer.length) {
-        return res
-          .status(404)
-          .json({ success: false, error: `No answers found` });
-      }
-      console.log("Number of answers", answer.length);
-      return res.status(200).json({ success: true, data: answer });
-    })
+    )
     .catch((err) => console.log(err));
 };
 

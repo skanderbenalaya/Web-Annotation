@@ -20,12 +20,12 @@ export const QBox = styled.div`
   border-radius: 20px;
   height: 100%;
   @media (min-width: 768px) {
-    width: ${px2vw(700, 768)};
+    width: ${px2vw(650, 768)};
     min-height: ${px2vw(100, 768)};
     height: 100%;
   }
   @media (min-width: 1024px) {
-    width: ${px2vw(900, 1024)};
+    width: ${px2vw(800, 1024)};
     min-height: ${px2vw(100)};
     height: 100%;
   }
@@ -43,7 +43,6 @@ export const QTitle = styled.div`
 `;
 export const QBoxText = styled.p`
   margin:auto;
-  padding-left:${px2vw(30)};
   color: #333;
   display: block;
   width: 90%;

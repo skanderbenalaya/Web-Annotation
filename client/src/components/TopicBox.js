@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { TContainer } from "../styles/TopicStyles";
 import api from "../api";
 import px2vw from "../utils/px2vw";
-// import React from 'react';
 import Select from "react-select";
 
 const customStyles = {
@@ -15,12 +14,12 @@ const customStyles = {
     },
     color: state.isSelected ? "black" : "black",
     backgroundColor: state.isSelected ? "#AEC0CA" : "white",
-    // backgroundColor: state.isFocused ? (state.isSelected ? "#AEC0CA" : "#E1E9EC") :"white" ,
     ":hover": {
       ...provided[":hover"],
       backgroundColor: state.Selected ? "#AEC0CA" : "#E1E9EC",
     },
     padding: 20,
+    transition: "all 0.3s ease 0s",
   }),
 
   menuList: (styles) => ({
@@ -54,6 +53,7 @@ const customStyles = {
 
   valueContainer: () => ({
     width: 400,
+    backgroundColor:"#fff",
     alignItems: "center",
     display: "flex",
     flex: 1,
@@ -66,11 +66,17 @@ const customStyles = {
   singleValue: (styles) => ({
     ...styles,
     fontSize: "1.3rem",
+    backgroundColor:"#fff",
     fontWeight: 700,
     "@media only screen and (min-width: 1024px)": {
       ...styles["@media only screen and (min-width: 1024px)"],
       fontSize: "1rem",
     },
+  }),
+  placeholder: (styles) => ({
+    ...styles,
+    backgroundColor:"#fff",
+    
   }),
 };
 
@@ -87,11 +93,11 @@ export default class DropdownTopic extends Component {
   componentDidMount = async () => {
     this.setState({ isLoading: true });
     await api.getTopics().then((topic) => {
-      var a = [];
-      topic.data.data.forEach((doc) => a.push({ value: doc, label: doc }));
+      var topicoptions = [];
+      topic.data.data.forEach((doc) => topicoptions.push({ value: doc, label: doc }));
       console.log(topic);
       this.setState({
-        topics: a,
+        topics: topicoptions,
         isLoading: false,
       });
     });
@@ -107,16 +113,20 @@ export default class DropdownTopic extends Component {
 
   render() {
     const { selectedOption, topics } = this.state;
+    const { fetchData } = this.props;
     return (
       <>
         <TContainer>
           <Select
             isSearchable={false}
-            // menuIsOpen={true}
             placeholder={"Select a topic ..."}
             styles={customStyles}
             value={selectedOption}
-            onChange={this.handleChange}
+            onChange={(selectedOption) => {
+              this.handleChange(selectedOption);
+              console.log(selectedOption);
+              fetchData(selectedOption.value);
+            }}
             options={topics}
           />
         </TContainer>
