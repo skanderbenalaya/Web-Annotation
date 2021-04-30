@@ -7,7 +7,7 @@ getOnlyTopics = async (req, res) => {
         return res.status(400).json({ success: false, error: err });
       }
       if (!topic.length) {
-        console.log("Number of answers", answer.length);
+        console.log("Number of answers", topic.length);
         return res.status(200).json({ success: true, data: topic });
       }
       console.log("Number of topics", topic.length);

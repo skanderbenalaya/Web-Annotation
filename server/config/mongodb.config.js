@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/chatbot-entries", {
+  .connect("mongodb://127.0.0.1:27017/Chatbot-entries", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

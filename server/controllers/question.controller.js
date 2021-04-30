@@ -1,4 +1,3 @@
-const answers = require("../models/answer.model");
 const questions = require("../models/question.model");
 
 getAllQuestions = async (req, res) => {
@@ -8,16 +7,16 @@ getAllQuestions = async (req, res) => {
         return res.status(400).json({ success: false, error: err });
       }
       if (!question.length) {
+        console.log("Number of questions", question.length);
         return res.status(200).json({ success: true, data: question });
       }
+      console.log("Number of questions", question.length);
       return res.status(200).json({ success: true, data: question });
     })
     .catch((err) => console.log(err));
 };
 
 getQuestion = async (req, res) => {
-  var RANDOM_NUMBER = Math.random();
-  console.log(RANDOM_NUMBER);
   await questions
     .aggregate(
       [
@@ -28,12 +27,33 @@ getQuestion = async (req, res) => {
         if (err) {
           return res.status(400).json({ success: false, error: err });
         }
-        if (!question) {
-          console.log(question);
-          return res.status(200).json({ success: true, data: question[0] });
+        console.log("Q: ",question)
+        if (!question.length) {
+          console.log("question empty: ",{});
+          return res.status(200).json({ success: true, data: {} });
         }
-        console.log(question);
+        console.log("question: ",question);
         return res.status(200).json({ success: true, data: question[0] });
+      }
+    )
+    .catch((err) => console.log(err));
+};
+
+getQuestionCount = async (req, res) => {
+  await questions
+    .find(
+      { is_valid: { $eq: false }, ignore: { $eq: false } },
+      { __v: 0 },
+      (err, question) => {
+        if (err) {
+          return res.status(400).json({ success: false, error: err });
+        }
+        if (!question.length) {
+          console.log(question.length);
+          return res.status(200).json({ success: true, data: question.length });
+        }
+        console.log(question.length);
+        return res.status(200).json({ success: true, data: question.length });
       }
     )
     .catch((err) => console.log(err));
@@ -49,8 +69,10 @@ getValidQuestions = async (req, res) => {
           return res.status(400).json({ success: false, error: err });
         }
         if (!question.length) {
+          console.log("Number of questions", question.length);
           return res.status(200).json({ success: true, data: question });
         }
+        console.log("Number of questions", question.length);
         return res.status(200).json({ success: true, data: question });
       }
     )
@@ -67,8 +89,10 @@ getIgnoredQuestions = async (req, res) => {
           return res.status(400).json({ success: false, error: err });
         }
         if (!question.length) {
+          console.log("Number of questions", question.length);
           return res.status(200).json({ success: true, data: question });
         }
+        console.log("Number of questions", question.length);
         return res.status(200).json({ success: true, data: question });
       }
     )
@@ -99,52 +123,7 @@ addQuestion = async (req, res) => {
   });
 };
 
-insertQuestion = async (req, res) => {
-  const body = req.body;
-  if (
-    Object.keys(req.body).length === 0 ||
-    !body.topic ||
-    !body.answer_id ||
-    !body.answer ||
-    !body.question
-  ) {
-    return res.status(400).json({
-      success: false,
-      error: "You must provide the correct body to insert",
-    });
-  }
 
-  answers.findOne({ _id: req.params.id }, (err, ans) => {
-    if (err) {
-      return res.status(404).json({
-        err,
-        message: "Check the provided id!",
-      });
-    }
-    var qarr;
-    ans.topic = body.topic;
-    ans.answer_id = body.answer_id;
-    ans.answer = body.answer;
-    qarr = ans.questions;
-    qarr.push(body.question);
-    ans.questions = qarr;
-    ans
-      .save()
-      .then(() => {
-        return res.status(200).json({
-          success: true,
-          result: ans.questions,
-          message: "Question added!",
-        });
-      })
-      .catch((error) => {
-        return res.status(404).json({
-          error,
-          message: "Question not updated, you may check your parameters",
-        });
-      });
-  });
-};
 
 validateQuestion = async (req, res) => {
   questions.findOne({ _id: req.params.id }, (err, question) => {
@@ -221,46 +200,18 @@ removeQuestion = async (req, res) => {
     .catch((err) => console.log(err));
 };
 
-popQuestion = async (req, res) => {
-  const body = req.body;
-  if (Object.keys(req.body).length === 0) {
-    return res.status(400).json({
-      success: false,
-      error: "You must provide a question to insert",
-    });
-  }
 
-  await answers.findOneAndUpdate(
-    { _id: req.params.id },
-    { $pull: { questions: body.question } },
-    { new: true, useFindAndModify: false },
-    (err, answer) => {
-      if (err) {
-        return res.status(404).json({
-          err,
-          message: "Answer id can't be found",
-        });
-      }
-      return res.status(200).json({
-        success: true,
-        result: answer,
-        message: "Question deleted!",
-      });
-    }
-  );
-};
 
 module.exports = {
   getAllQuestions,
   getQuestion,
+  getQuestionCount,
   getValidQuestions,
   getIgnoredQuestions,
   addQuestion,
-  insertQuestion,
   validateQuestion,
   ignoreQuestion,
   removeQuestion,
-  popQuestion,
 };
 
 // createQuestion = (req, res) => {
