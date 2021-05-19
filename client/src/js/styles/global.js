@@ -6,9 +6,9 @@ export const Global = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: #fafafa;
   }
-  :root {
+  body {
+    background-color: #fafafa;
     overflow-y: overlay;
       font-size: ${px2vw(24)};
       @media (min-width: 768px) {

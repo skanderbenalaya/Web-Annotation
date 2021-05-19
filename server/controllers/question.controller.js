@@ -27,12 +27,12 @@ getQuestion = async (req, res) => {
         if (err) {
           return res.status(400).json({ success: false, error: err });
         }
-        console.log("Q: ",question)
+        console.log("Q: ", question);
         if (!question.length) {
-          console.log("question empty: ",{});
+          console.log("question empty: ", {});
           return res.status(200).json({ success: true, data: {} });
         }
-        console.log("question: ",question);
+        console.log("question: ", question);
         return res.status(200).json({ success: true, data: question[0] });
       }
     )
@@ -56,6 +56,23 @@ getQuestionCount = async (req, res) => {
         return res.status(200).json({ success: true, data: question.length });
       }
     )
+    .catch((err) => console.log(err));
+};
+
+getQuestionById = async (req, res) => {
+  await questions
+    .findOne({ _id: req.params.id }, (err, question) => {
+      if (err) {
+        return res.status(400).json({ success: false, error: err });
+      }
+
+      if (!question) {
+        return res
+          .status(404)
+          .json({ success: false, error: `Question not found` });
+      }
+      return res.status(200).json({ success: true, data: question });
+    })
     .catch((err) => console.log(err));
 };
 
@@ -99,7 +116,40 @@ getIgnoredQuestions = async (req, res) => {
     .catch((err) => console.log(err));
 };
 
-addQuestion = async (req, res) => {
+createQuestion = (req, res) => {
+  const body = req.body;
+
+  if (!body) {
+    return res.status(400).json({
+      success: false,
+      error: "You must provide a question",
+    });
+  }
+
+  const question = new questions(body);
+
+  if (!question) {
+    return res.status(400).json({ success: false, error: err });
+  }
+
+  question
+    .save()
+    .then(() => {
+      return res.status(201).json({
+        success: true,
+        data: question,
+        message: "Question created!",
+      });
+    })
+    .catch((error) => {
+      return res.status(400).json({
+        error,
+        message: "Question not created!",
+      });
+    });
+};
+
+addQuestions = async (req, res) => {
   const body = req.body;
   if (Object.keys(req.body).length === 0) {
     return res.status(400).json({
@@ -123,7 +173,40 @@ addQuestion = async (req, res) => {
   });
 };
 
+modifyQuestion = async (req, res) => {
+  const body = req.body;
+  if (!body.question) {
+    return res.status(400).json({
+      success: false,
+      error: "You must provide a question to update",
+    });
+  }
 
+  questions.findOne({ _id: req.params.id }, (err, ans) => {
+    if (err) {
+      return res.status(404).json({
+        err,
+        message: "Question not found!",
+      });
+    }
+    ans.question = body.question;
+    ans
+      .save()
+      .then(() => {
+        return res.status(200).json({
+          success: true,
+          result: ans,
+          message: "Question updated!",
+        });
+      })
+      .catch((error) => {
+        return res.status(404).json({
+          error,
+          message: "Question not updated!",
+        });
+      });
+  });
+};
 
 validateQuestion = async (req, res) => {
   questions.findOne({ _id: req.params.id }, (err, question) => {
@@ -186,12 +269,6 @@ removeQuestion = async (req, res) => {
         return res.status(400).json({ success: false, error: err });
       }
 
-      if (!question) {
-        return res
-          .status(404)
-          .json({ success: false, error: `Question not found` });
-      }
-
       return res.status(200).json({
         success: true,
         message: "Question Deleted!",
@@ -200,15 +277,16 @@ removeQuestion = async (req, res) => {
     .catch((err) => console.log(err));
 };
 
-
-
 module.exports = {
   getAllQuestions,
   getQuestion,
   getQuestionCount,
+  getQuestionById,
   getValidQuestions,
   getIgnoredQuestions,
-  addQuestion,
+  createQuestion,
+  addQuestions,
+  modifyQuestion,
   validateQuestion,
   ignoreQuestion,
   removeQuestion,

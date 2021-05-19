@@ -2,17 +2,39 @@ import styled from "styled-components";
 import px2vw from "../utils/px2vw";
 export const Container = styled.div`
   display: flex;
+  border: 2px solid #b6b6b6;
+  border-radius: 20px;
+  padding-top: ${px2vw(200)};
+  padding-left: ${px2vw(32)};
+  padding-right: ${px2vw(32)};
+  padding-bottom: ${px2vw(32)};
+  margin-top: ${px2vw(100)};
+  margin-left: ${px2vw(32)};
+  margin-right: ${px2vw(32)};
+  margin-bottom: ${px2vw(32)};
   flex-wrap: wrap;
   justify-content: center;
-  margin: ${px2vw(32)};
   max-width: 100%;
+  @media (min-width: 768px) {
+    padding-top: ${px2vw(80)};
+    margin-top: ${px2vw(32)};
+    margin-left: ${px2vw(32)};
+    margin-right: ${px2vw(32)};
+    margin-bottom: ${px2vw(32)};
+  }
+  @media (min-width: 1024px) {
+    padding-top: ${px2vw(50)};
+  }
+  @media (min-width: 1280px) {
+    padding-top: ${px2vw(40)};
+  }
 `;
 export const Box = styled.div`
   display: flex;
   width: ${px2vw(280, 320)};
   min-height: ${px2vw(200, 320)};
   flex-direction: column;
-  padding: ${px2vw(20)};
+  padding: ${px2vw(32)};
   margin: ${px2vw(20)};
   background-color: ${(props) => props.bgColor};
   background-image: ${(props) => props.bgImage};
@@ -22,16 +44,19 @@ export const Box = styled.div`
   border-radius: 20px;
   cursor: pointer;
   @media (min-width: 768px) {
+    padding-top: ${px2vw(40)};
     width: ${px2vw(320, 768)};
     min-height: ${px2vw(200, 768)};
     height: auto;
   }
   @media (min-width: 1024px) {
+    padding-top: ${px2vw(40)};
     width: ${px2vw(400, 1024)};
     min-height: ${px2vw(300)};
     height: auto;
   }
   @media (min-width: 1280px) {
+    padding-top: ${px2vw(20)};
     width: ${px2vw(348, 1280)};
     min-height: ${px2vw(300)};
     height: auto;
@@ -80,5 +105,73 @@ export const BoxText = styled.p`
   font-size: 1.5rem;
   @media (min-width: 1024px) {
     font-size: 1.1rem;
+  }
+`;
+
+export const AContainer = styled.div`
+  display: flex;
+  margin-top: -${px2vw(150)};
+  flex-direction: row;
+  position: absolute;
+  flex-wrap: wrap;
+  justify-content: center;
+  @media (min-width: 768px) {
+    margin-top: -${px2vw(50)};
+  }
+  @media (min-width: 1024px) {
+    padding-top: ${px2vw(25)};
+  }
+  @media (min-width: 1280px) {
+    padding-top: ${px2vw(26)};
+  }
+`;
+
+export const SButton = styled.a`
+  position: relative;
+  flex-direction: row;
+  display: flex;
+  flex: 1 100%;
+  justify-content: space-evenly;
+  height: 14px;
+  width: 45px;
+  line-height: 24px;
+
+  @media (min-width: 768px) {
+    height: 16px;
+    width: 128px;
+    bottom: auto;
+    line-height: 16px;
+  }
+  @media (min-width: 1024px) {
+    height: 18px;
+    width: 190px;
+    bottom: auto;
+    line-height: 18px;
+  }
+`;
+
+export const SearchBox = styled.input`
+  display: flex;
+  position: relative;
+  margin-top: 12px;
+  padding: 0.25em 0.5em;
+  width: 140px;
+  border: solid 1px grey;
+  color: #333;
+  word-wrap: break-word;
+  background-color: #fff;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 50;
+  @media (min-width: 768px) {
+    margin-top: -${px2vw(7, 320)};
+    left: ${px2vw(120, 320)};
+  }
+  @media (min-width: 1024px) {
+    margin-top: -${px2vw(6, 320)};
+  }
+  @media (min-width: 1280px) {
+    margin-top: -${px2vw(11, 786)};
+    left: ${px2vw(310, 768)};
   }
 `;

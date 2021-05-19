@@ -1,18 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Global from "../styles/global";
 import Question from "./Question";
 import Topic from "./Topic";
 import Answer from "./Answer";
 import Footer from "./Footer";
+import styled from "styled-components";
+import { ModalProvider, BaseModalBackground } from "styled-react-modal";
+import useExitPrompt from "../utils/useExitPrompt";
+const FadingBackground = styled(BaseModalBackground)`
+  opacity: ${(props) => props.opacity};
+  transition: all 0.1s ease-in-out;
+`;
 
 function App() {
+  const [showExitPrompt, setShowExitPrompt] = useExitPrompt(false);
+  console.log("showExitPrompt", showExitPrompt);
+  useEffect(() => {
+    return () => {
+      setShowExitPrompt(false);
+    };
+  });
+
   return (
     <>
-      <Global />
-      <Question />
-      <Topic />
-      <Answer />
-      <Footer />
+      <ModalProvider backgroundComponent={FadingBackground}>
+        <Global />
+        <Question />
+        <Topic />
+        <Answer />
+        <Footer />
+      </ModalProvider>
     </>
   );
 }

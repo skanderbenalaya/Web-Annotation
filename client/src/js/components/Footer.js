@@ -50,7 +50,7 @@ class footer extends Component {
           disabled={selectedCard === 0}
           onClick={() => {
             this.props.ValidateQuestion(question_id, A_id, data);
-            console.log("data: ", data);
+            // console.log("data: ", data);
           }}
         ></Button>
         <ReactTooltip id="validate" place="left" type="success" effect="solid">

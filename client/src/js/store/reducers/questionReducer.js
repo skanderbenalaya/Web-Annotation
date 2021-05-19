@@ -1,6 +1,10 @@
 import {
   LOAD_QUESTION,
+  MODIFY_QUESTION,
+  ADD_QUESTION,
+  SKIP_QUESTION,
   COUNT_QUESTION,
+  DELETE_QUESTION,
   IGNORE_QUESTION,
   VALIDATE_QUESTION,
 } from "../types";
@@ -34,10 +38,36 @@ export default function quesRed(state = initialState, action) {
           loading: false,
         };
       break;
+    case ADD_QUESTION:
+      retval = {
+        ...state,
+        question_data: action.payload,
+        loading: false,
+      };
+      break;
+    case MODIFY_QUESTION:
+      retval = {
+        ...state,
+        question_data: action.payload,
+        loading: false,
+      };
+      break;
     case COUNT_QUESTION:
       retval = {
         ...state,
         count: action.payload,
+        loading: false,
+      };
+      break;
+    case DELETE_QUESTION:
+      retval = {
+        ...state,
+        loading: false,
+      };
+      break;
+    case SKIP_QUESTION:
+      retval = {
+        ...state,
         loading: false,
       };
       break;

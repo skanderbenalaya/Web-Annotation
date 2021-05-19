@@ -1,10 +1,21 @@
 import React, { Component } from "react";
-import { TContainer } from "../styles/TopicStyles";
+import { TContainer, SButton } from "../styles/TopicStyles";
+import { DeleteIcon } from "../styles/IconStyles";
 import px2vw from "../utils/px2vw";
 import Select from "react-select";
 import { connect } from "react-redux";
-import { LoadTopic, SelectTopic } from "../store/actions/topicActions";
-import { LoadAnswer, SelectAnswer } from "../store/actions/answerActions";
+import {
+  LoadTopic,
+  SelectTopic,
+  RemoveTopic,
+} from "../store/actions/topicActions";
+import {
+  LoadAnswer,
+  FlushAnswer,
+  SelectAnswer,
+} from "../store/actions/answerActions";
+import AddButton from "./Modals/AddTopicModal";
+import EditButton from "./Modals/EditTopicModal";
 
 const customStyles = {
   option: (provided, state) => ({
@@ -42,6 +53,7 @@ const customStyles = {
 
   container: (styles) => ({
     ...styles,
+    position: "relative",
     width: `${px2vw(260, 320)}`,
     "@media only screen and (min-width: 768px)": {
       ...styles["@media only screen and (min-width: 768px)"],
@@ -55,7 +67,6 @@ const customStyles = {
 
   valueContainer: () => ({
     width: 400,
-    backgroundColor: "#fff",
     alignItems: "center",
     display: "flex",
     flex: 1,
@@ -74,10 +85,6 @@ const customStyles = {
       ...styles["@media only screen and (min-width: 1024px)"],
       fontSize: "1rem",
     },
-  }),
-  placeholder: (styles) => ({
-    ...styles,
-    backgroundColor: "#fff",
   }),
 };
 
@@ -99,9 +106,16 @@ class topic extends Component {
 
   render() {
     const question_count = this.props.question_count;
+    let data = this.props.topic_state;
     const selectedTopic = this.props.topic_state.selectedTopic;
-    console.log(`render selectOption`, selectedTopic);
-    const topic_data = this.props.topic_state.topic_data;
+    // console.log(`render selectTopic`, selectedTopic);
+    const topic_data = [];
+    data.topic_data
+      .concat(data.add_data)
+      .forEach((doc) => topic_data.push({ value: doc, label: doc }));
+    // console.log(`render topic_data `, data.topic_data);
+    // console.log(`render add_data `, data.add_data);
+
     return (
       <>
         <TContainer>
@@ -117,13 +131,25 @@ class topic extends Component {
             onChange={(selectedTopic) => {
               this.handleChange(selectedTopic);
               this.props.SelectAnswer({ A_id: 0, answer: "" });
-              this.props.LoadAnswer(selectedTopic.value);
+              data.topic_data.indexOf(selectedTopic.value) > -1
+                ? this.props.LoadAnswer(selectedTopic.value)
+                : this.props.FlushAnswer();
               this.selectTopic(selectedTopic.value);
               console.log("HandleselectedOption", selectedTopic);
             }}
             options={topic_data}
             isDisabled={!question_count}
           />
+          <SButton>
+            <AddButton />
+            <EditButton />
+            <DeleteIcon
+              disabled={!question_count || selectedTopic === ""}
+              onClick={() => {
+                this.props.RemoveTopic(data.add_data.indexOf(selectedTopic));
+              }}
+            />
+          </SButton>
         </TContainer>
       </>
     );
@@ -138,6 +164,8 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   LoadTopic,
   SelectTopic,
+  RemoveTopic,
   LoadAnswer,
+  FlushAnswer,
   SelectAnswer,
 })(topic);

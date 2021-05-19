@@ -21,7 +21,7 @@ modifyTopic = async (req, res) => {
   if (Object.keys(req.body).length === 0) {
     return res.status(400).json({
       success: false,
-      error: "You must provide a topic in order to modify another",
+      error: "You must provide a topic in order to modify it",
     });
   }
 
@@ -38,6 +38,7 @@ modifyTopic = async (req, res) => {
       return res.status(200).json({
         success: true,
         result: topic,
+        update: body.topic,
         message: "Topic updated!",
       });
     }

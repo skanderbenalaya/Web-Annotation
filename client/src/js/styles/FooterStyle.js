@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import px2pw from "../utils/px2vw";
+import px2vw from "../utils/px2vw";
 
 export const Container = styled.div`
   position: fixed;
@@ -21,12 +21,12 @@ export const Container = styled.div`
   @media (min-width: 1024px) {
     height: 160px;
     width: 60px;
-    right: ${px2pw(38)};
+    right: ${px2vw(38)};
   }
   @media (min-width: 1280px) {
     height: 160px;
     width: 60px;
-    right: ${px2pw(24)};
+    right: ${px2vw(24)};
   }
 `;
 
