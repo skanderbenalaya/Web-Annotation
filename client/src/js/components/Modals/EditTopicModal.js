@@ -158,7 +158,7 @@ export default function EditButton() {
         <QTitle>Topic</QTitle>
         <ModalBoxText
           rows="1"
-          placeholder="Insert Topic Here"
+          placeholder="Edit Topic Here"
           value={text}
           onChange={(e) => setText(e.target.value)}
         />

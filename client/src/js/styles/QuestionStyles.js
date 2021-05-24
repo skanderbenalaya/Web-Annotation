@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import px2vw from "../utils/px2vw";
-import { ReloadCircle } from "@styled-icons/ionicons-solid";
+import { RightArrowAlt } from "@styled-icons/boxicons-regular";
 
 export const QContainer = styled.div`
   display: flex;
@@ -34,7 +34,7 @@ export const QBox = styled.div`
   }
 `;
 export const QTitle = styled.div`
-  flex: 1 0 68%;
+  flex: 1 0 80%;
   display: inline;
   margin-left:10px;
   width: fit-content;
@@ -47,7 +47,7 @@ export const QTitle = styled.div`
 `;
 
 export const SButton = styled.a`
-  flex: 1 0 10%;
+  flex: 1 0 5%;
   position: relative;
   background-color: #fff;
   display: flex;
@@ -83,7 +83,7 @@ export const QBoxText = styled.p`
   }
 `;
 
-export const Reload = styled(ReloadCircle)`
+export const Reload = styled(RightArrowAlt)`
   background-color: #fafafa;
 `;
 export const Button = styled.a`

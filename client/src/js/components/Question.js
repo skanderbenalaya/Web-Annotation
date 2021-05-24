@@ -44,19 +44,19 @@ class question extends Component {
           <SButton>
             <AddButton />
             <EditButton />
-            <DeleteIcon
+            {/* <DeleteIcon
               disabled={count === 0}
               onClick={() => {
                 this.props.DeleteQuestion(question._id);
               }}
-            />
+            /> */}
           </SButton>
           <QBoxText>{question.question}</QBoxText>
         </QBox>
         <Button
           className={"skipBtn"}
           data-tip
-          data-for="skip"
+          data-for="Next"
           disabled={count < 2}
           onClick={() => {
             this.props.SkipQuestion();
@@ -64,8 +64,8 @@ class question extends Component {
         >
           <Reload />
         </Button>
-        <ReactTooltip id="skip" place="right" type="dark" effect="solid">
-          <span style={styleTooltip}>Skip</span>
+        <ReactTooltip id="Next" place="right" type="dark" effect="solid">
+          <span style={styleTooltip}>Next</span>
         </ReactTooltip>
       </QContainer>
     );

@@ -10,11 +10,7 @@ import {
 } from "../styles/AnswerStyles";
 import { DeleteIcon } from "../styles/IconStyles";
 import { connect } from "react-redux";
-import {
-  SelectAnswer,
-  DeleteAnswer,
-  SearchAnswer,
-} from "../store/actions/answerActions";
+import { SelectAnswer, DeleteAnswer } from "../store/actions/answerActions";
 import AddButton from "./Modals/AddAnswerModal";
 import EditButton from "./Modals/EditAnswerModal";
 
@@ -28,8 +24,6 @@ class answer extends Component {
   }
 
   render() {
-    let searchValue = this.props.answer_state.searchValue;
-    console.log("searchValue", searchValue);
     const boxData = this.props.answer_state.answer_data;
     console.log("boxData", boxData);
     const cardActive = this.props.answer_state.cardActive;
@@ -40,6 +34,7 @@ class answer extends Component {
         : boxData.find((item) => item.title === cardActive.A_id).id;
     return (
       <>
+        {" "}
         {boxData.length ? (
           <Container>
             <AContainer>
@@ -53,12 +48,6 @@ class answer extends Component {
                   }}
                 />
               </SButton>
-              <SearchBox
-                type="text"
-                placeholder="Search Answer"
-                onChange={(e) => SearchAnswer(e.target.value)}
-                value={searchValue}
-              />
             </AContainer>
             {boxData.map((box) => (
               <Box
@@ -77,11 +66,7 @@ class answer extends Component {
               </Box>
             ))}
           </Container>
-        ) : (
-          <div style={{ marginTop: "100px", textAlign: "center" }}>
-            <span style={{ display: "inline-block" }}>No answers found</span>
-          </div>
-        )}
+        ) : null}
       </>
     );
   }
@@ -95,5 +80,4 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   SelectAnswer,
   DeleteAnswer,
-  SearchAnswer,
 })(answer);
