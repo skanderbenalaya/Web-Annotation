@@ -1,9 +1,9 @@
 import {
   LOAD_TOPIC,
-  ADD_TOPIC,
+  EDIT_TOPIC,
   SELECT_TOPIC,
+  ADD_TOPIC,
   MODIFY_TOPIC,
-  REDO_TOPIC,
   REMOVE_TOPIC,
   IGNORE_QUESTION,
   VALIDATE_QUESTION,
@@ -12,7 +12,7 @@ import {
 
 const initialState = {
   topic_data: [],
-  add_data: [],
+  add_data: ["Général"],
   selectedTopic: "",
   loading: true,
 };
@@ -37,6 +37,17 @@ export default function topRed(state = initialState, action) {
         loading: false,
       };
       break;
+    case EDIT_TOPIC:
+      retval = {
+        ...state,
+        add_data: state.add_data
+          .slice(0, action.index)
+          .concat(action.payload)
+          .concat(state.add_data.slice(action.index + 1)),
+        selectedTopic: action.payload,
+        loading: false,
+      };
+      break;
     case SELECT_TOPIC:
       retval = {
         ...state,
@@ -47,18 +58,6 @@ export default function topRed(state = initialState, action) {
     case MODIFY_TOPIC:
       retval = {
         ...state,
-        selectedTopic: action.payload,
-        loading: false,
-      };
-      break;
-    case REDO_TOPIC:
-      retval = {
-        ...state,
-        add_data: [
-          state.add_data.slice(0, action.index),
-          action.payload,
-          state.add_data.slice(action.index + 1),
-        ],
         selectedTopic: action.payload,
         loading: false,
       };
@@ -76,7 +75,6 @@ export default function topRed(state = initialState, action) {
     case IGNORE_QUESTION:
       retval = {
         ...state,
-        topic_data: [],
         selectedTopic: "",
         loading: false,
       };
@@ -84,7 +82,7 @@ export default function topRed(state = initialState, action) {
     case VALIDATE_QUESTION:
       retval = {
         ...state,
-        topic_data: [],
+        add_data: [],
         selectedTopic: "",
         loading: false,
       };
@@ -92,7 +90,6 @@ export default function topRed(state = initialState, action) {
     case SKIP_QUESTION:
       retval = {
         ...state,
-        topic_data: [],
         selectedTopic: "",
         loading: false,
       };

@@ -26,10 +26,9 @@ getAnswersbyTopic = async (req, res) => {
           return res.status(400).json({ success: false, error: err });
         }
         if (!answer.length) {
-          return res
-            .status(404)
-            .json({ success: false, error: `No answers found` });
+          return res.status(200).json({ success: true, data: answer });
         }
+        console.log("answers", answer);
         console.log("Number of answers", answer.length);
         return res.status(200).json({ success: true, data: answer });
       }
@@ -129,7 +128,7 @@ insertQuestion = async (req, res) => {
     });
   }
 
-  answers.findOne({ A_id: req.params.id }, (err, ans) => {
+  answers.findOne({ _id: req.params.id }, (err, ans) => {
     if (err) {
       return res.status(404).json({
         err,
@@ -141,8 +140,8 @@ insertQuestion = async (req, res) => {
       qarr = ans.questions;
       qarr.push({ question: body.question });
       ans.questions = qarr;
+      ans.A_id = body.A_id;
       ans.topic = body.topic;
-      ans.A_id = req.params.id;
       ans.answer = body.answer;
       ans
         .save()
@@ -161,7 +160,7 @@ insertQuestion = async (req, res) => {
         });
     } else {
       var aux = {
-        A_id: req.params.id,
+        A_id: body.A_id,
         topic: body.topic,
         answer: body.answer,
         questions: [{ question: body.question }],
@@ -183,17 +182,12 @@ deleteAnswer = async (req, res) => {
       if (err) {
         return res.status(400).json({ success: false, error: err });
       }
-
-      if (!answer) {
-        return res
-          .status(404)
-          .json({ success: false, error: `Answer not found` });
+      if (answer) {
+        return res.status(200).json({
+          success: true,
+          message: "Answer Deleted!",
+        });
       }
-
-      return res.status(200).json({
-        success: true,
-        message: "Answer Deleted!",
-      });
     })
     .catch((err) => console.log(err));
 };
@@ -237,4 +231,3 @@ module.exports = {
   deleteAnswer,
   popQuestion,
 };
-
