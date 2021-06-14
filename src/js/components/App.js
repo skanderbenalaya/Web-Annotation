@@ -14,7 +14,7 @@ function App() {
   const [userContext, setUserContext] = useContext(UserContext);
   // console.log("App Context ", userContext);
   const verifyUser = useCallback(() => {
-    fetch("http://localhost:3000/api/auth/refreshtoken", {
+    fetch("https://localhost:3000/api/auth/refreshtoken", {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },

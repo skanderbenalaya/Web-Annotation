@@ -16,7 +16,7 @@ const Login = () => {
 
     const genericErrorMessage = "Something went wrong! Please try again later.";
 
-    fetch("http://localhost:3000/api/auth/login", {
+    fetch("https://localhost:3000/api/auth/login", {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },

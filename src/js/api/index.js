@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: "https://localhost:3000/api",
 });
 export const postQuestion = (payload) => api.post(`/question`, payload);
 

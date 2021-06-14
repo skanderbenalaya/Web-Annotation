@@ -16,7 +16,7 @@ const Register = () => {
 
     const genericErrorMessage = "Something went wrong! Please try again later.";
 
-    fetch("http://localhost:3000/api/auth/register", {
+    fetch("https://localhost:3000/api/auth/register", {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },

@@ -15,7 +15,7 @@ const Welcome = () => {
   const [userContext, setUserContext] = useContext(UserContext);
   //   console.log("Refresh Context ", userContext);
   const fetchUserDetails = useCallback(() => {
-    fetch("http://localhost:3000/api/auth/user", {
+    fetch("https://localhost:3000/api/auth/user", {
       method: "GET",
       credentials: "include",
       // Pass authentication token as bearer token in header

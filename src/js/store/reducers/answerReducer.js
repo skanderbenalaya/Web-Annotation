@@ -50,6 +50,7 @@ export default function ansRed(state = initialState, action) {
         answer_data: [],
         loading: false,
       };
+      break;
     case FLUSH_ANSWER:
       retval = {
         ...state,

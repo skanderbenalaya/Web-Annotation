@@ -24,6 +24,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.3.0",
+    "socket.io-client": "^4.1.2",
     "styled-components": "^5.2.1",
     "styled-icons": "^10.33.0",
     "styled-react-modal": "^2.1.0",
@@ -47,7 +48,6 @@
   "browserslist": {
     "production": [
       ">0.2%",
-      "not dead",
       "not op_mini all"
     ],
     "development": [
