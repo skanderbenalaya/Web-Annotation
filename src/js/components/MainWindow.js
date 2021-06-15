@@ -10,7 +10,6 @@ const FadingBackground = styled(BaseModalBackground)`
   opacity: ${(props) => props.opacity};
   transition: all 0.1s ease-in-out;
 `;
-
 function MainWindow(props) {
 
   return (

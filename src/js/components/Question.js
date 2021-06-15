@@ -23,16 +23,14 @@ import EditButton from "./Modals/EditQuestionModal";
 import { CancelIcon } from "../styles/IconStyles";
 import { Beforeunload } from "react-beforeunload";
 
-function sleep(delay) {
-  var start = new Date().getTime();
-  while (new Date().getTime() < start + delay);
-}
-
 class question extends Component {
   componentDidMount = async () => {
     console.log("Mount");
-    this.props.LoadQuestion(this.props.question_state.question_data._id);
-    this.props.LoadCount();
+    this.props
+      .LoadQuestion(this.props.question_state.question_data._id)
+      .then((response) => {
+        this.props.LoadCount();
+      });
   };
 
   render() {
@@ -48,10 +46,17 @@ class question extends Component {
     return (
       <React.Fragment>
         <Beforeunload
-          onBeforeunload={(event) => {
-            console.log("Blocking for 1 second...");
+          onBeforeunload={() => {
             this.props.UnlockQuestion(question_id);
-            sleep(400);
+            window.onunload = function () {
+              fetch(
+                `https://localhost:3000/api/question/release/${question_id}`,
+                {
+                  method: "PUT",
+                  keepalive: true,
+                }
+              );
+            };
           }}
         />
         <QContainer>
@@ -70,14 +75,18 @@ class question extends Component {
                   paddingBottom: "2px",
                 }}
               >
-                {count} Remaining
+                {!question_id
+                  ? `${count} Remaining`
+                  : !count
+                  ? `Last one`
+                  : `${count} Remaining`}
               </div>
             </QCount>
             <SButton>
               <AddButton />
               <EditButton />
               <CancelIcon
-                disabled={count === 0}
+                disabled={question_id === 0}
                 onClick={() => {
                   this.props.IgnoreQuestion(question_id, username);
                 }}
@@ -91,7 +100,7 @@ class question extends Component {
             data-for="skip"
             disabled={
               // false
-              count < 2
+              count < 1
             }
             onClick={() => {
               this.props.SkipQuestion(question_id);

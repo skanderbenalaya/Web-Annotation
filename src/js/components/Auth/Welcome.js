@@ -62,7 +62,7 @@ const Welcome = () => {
   //   };
 
   const logoutHandler = () => {
-    fetch("http://localhost:3000/api/auth/logout", {
+    fetch("https://localhost:3000/api/auth/logout", {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",

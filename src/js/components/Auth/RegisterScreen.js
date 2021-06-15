@@ -55,19 +55,19 @@ const Register = () => {
       {error && <Callout intent="danger">{error}</Callout>}
 
       <form onSubmit={formSubmitHandler} className="auth-form">
-        <FormGroup label="Username" labelFor="username">
+        <FormGroup label="Username" labelFor="username-register">
           <InputGroup
-            id="username"
-            type="username"
+            id="username-register"
+            type="username-register"
             placeholder="Username"
             onChange={(e) => setUsername(e.target.value)}
           />
         </FormGroup>
-        <FormGroup label="Password" labelFor="password">
+        <FormGroup label="Password" labelFor="password-register">
           <InputGroup
-            id="password"
+            id="password-register"
             placeholder="Password"
-            type="password"
+            type="password-register"
             onChange={(e) => setPassword(e.target.value)}
           />
         </FormGroup>

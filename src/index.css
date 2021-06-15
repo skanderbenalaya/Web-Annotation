@@ -9,7 +9,7 @@ body {
   max-height: 400px;
 }
 .Panel {
-  margin: 18% auto;
+  margin: 24vh auto;
   max-width: 400px;
 }
 
@@ -18,5 +18,5 @@ body {
 }
 
 .loader {
-  margin: 35% auto;
+  margin: 35vh auto;
 }

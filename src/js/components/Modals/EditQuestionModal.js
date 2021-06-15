@@ -115,7 +115,6 @@ export default function EditButton() {
   );
   const [text, setText] = useState(initText);
   let id = useSelector((state) => state.question_state.question_data._id);
-  let count = useSelector((state) => state.question_state.count);
   const dispatch = useDispatch();
   function toggleModal(e) {
     setOpacity(0);
@@ -141,7 +140,7 @@ export default function EditButton() {
 
   return (
     <React.Fragment>
-      <EditIcon disabled={count === 0 || id === 0} onClick={toggleModal} />
+      <EditIcon disabled={id === 0} onClick={toggleModal} />
       <ModalBox
         isOpen={isOpen}
         beforeOpen={beforeOpen}
@@ -175,6 +174,7 @@ export default function EditButton() {
                 toggleModal();
               } else {
                 dispatch(EditQuestion(id, text));
+                toggleModal();
               }
             }}
           >

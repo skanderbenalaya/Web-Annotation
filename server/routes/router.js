@@ -187,6 +187,9 @@ router.put("/question/:id", questionCtrl.modifyQuestion);
 router.put("/question/ignore/:id", questionCtrl.ignoreQuestion);
 router.put("/question/validate/:id", questionCtrl.validateQuestion);
 router.put("/question/release/:id", questionCtrl.releaseQuestion);
+  // console.log(
+  //   `BEACON TO RELEASE RECEIVED AT ${new Date().toISOString()}`
+  // );
 router.delete("/question/:id", questionCtrl.removeQuestion);
 
 router.post("/answer", answerCtrl.addAnswer);

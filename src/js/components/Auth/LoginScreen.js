@@ -51,20 +51,20 @@ const Login = () => {
     <React.Fragment>
       {error && <Callout intent="danger">{error}</Callout>}
       <form onSubmit={formSubmitHandler} className="auth-form">
-        <FormGroup label="Username" labelFor="username">
+        <FormGroup label="Username" labelFor="username-login">
           <InputGroup
-            id="username"
+            id="username-login"
             placeholder="Username"
-            type="username"
+            type="username-login"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
         </FormGroup>
-        <FormGroup label="Password" labelFor="password">
+        <FormGroup label="Password" labelFor="password-login">
           <InputGroup
-            id="password"
+            id="password-login"
             placeholder="Password"
-            type="password"
+            type="password-login"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

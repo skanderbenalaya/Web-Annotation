@@ -54,8 +54,13 @@ export const IgnoreQuestion = (id, user) => async (dispatch) => {
       type: IGNORE_QUESTION,
       payload: res,
     });
-    dispatch(LoadCount());
-    dispatch(LoadQuestion(id));
+    Promise.all([dispatch(LoadQuestion(id))])
+      .then(() => {
+        dispatch(LoadCount());
+      })
+      .catch((err) => {
+        console.log("error dispatch chaining");
+      });
     dispatch(LoadTopic());
   } catch (e) {
     dispatch({
@@ -68,9 +73,8 @@ export const IgnoreQuestion = (id, user) => async (dispatch) => {
 export const UnlockQuestion = (id) => async (dispatch) => {
   if (id !== 0) {
     try {
-      console.log("Releasing: ", id);
-      const res = await apis.releaseQuestion(id);
-      console.log("res ", res);
+      console.log("Releasing front: ", id);
+      await apis.releaseQuestion(id);
       dispatch({
         type: UNLOCK_QUESTION,
         payload: null,
@@ -86,14 +90,18 @@ export const UnlockQuestion = (id) => async (dispatch) => {
 
 export const SkipQuestion = (id) => async (dispatch) => {
   try {
-    const res = await apis.releaseQuestion(id);
-    dispatch(LoadCount());
-    console.log("res ", res);
+    dispatch(UnlockQuestion(id));
     dispatch({
       type: SKIP_QUESTION,
       payload: null,
     });
-    dispatch(LoadQuestion(id));
+    Promise.all([dispatch(LoadQuestion(id))])
+      .then(() => {
+        dispatch(LoadCount());
+      })
+      .catch((err) => {
+        console.log("error dispatch chaining");
+      });
     dispatch(LoadTopic());
   } catch (e) {
     dispatch({
@@ -168,8 +176,13 @@ export const ValidateQuestion = (id, _id, data, user) => async (dispatch) => {
       type: INSERT_QUESTION,
       payload: result,
     });
-    dispatch(LoadQuestion(id));
-    dispatch(LoadCount());
+    Promise.all([dispatch(LoadQuestion(id))])
+      .then(() => {
+        dispatch(LoadCount());
+      })
+      .catch((err) => {
+        console.log("error dispatch chaining");
+      });
     dispatch(LoadTopic());
   } catch (e) {
     dispatch({

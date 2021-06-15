@@ -35,7 +35,10 @@ export const ignoreQuestion = (id, payload) =>
 export const validateQuestion = (id, payload) =>
   api.put(`/question/validate/${id}`, payload);
 
-export const releaseQuestion = (id) => api.put(`/question/release/${id}`);
+export const releaseQuestion = (id) =>
+  api.put(`/question/release/${id}`).then((response) => {
+    console.log("axios res unlock ", response);
+  });
 
 export const insertQuestion = (id, payload) =>
   api.put(`/answer/question/${id}`, payload);

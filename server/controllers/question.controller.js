@@ -18,94 +18,153 @@ getAllQuestions = async (req, res) => {
 };
 
 getQuestion = async (req, res) => {
-  var id;
-  req.params.id == 0 ? (id = "000000000000000000000000") : (id = req.params.id);
-  await questions
-    .aggregate(
-      [
-        {
-          $match: {
-            $and: [
-              { _id: { $ne: mongoose.Types.ObjectId(id) } },
-              { isProcessing: { $eq: false } },
-              { is_valid: { $eq: false } },
-              { ignore: { $eq: false } },
-            ],
-          },
+  var id = req.params.id;
+  if (id === 0) {
+    return res.status(200).json({
+      success: true,
+      message: "Empty!",
+    });
+  }
+  // req.params.id == 0 ? (id = "000000000000000000000000") : (id = req.params.id);
+  await questions.aggregate(
+    [
+      {
+        $match: {
+          $and: [
+            { _id: { $ne: id } },
+            { isProcessing: { $eq: false } },
+            { is_valid: { $eq: false } },
+            { ignore: { $eq: false } },
+          ],
         },
-        { $sample: { size: 1 } },
-      ],
-      (err, question) => {
-        if (err) {
-          return res.status(400).json({ success: false, error: err });
-        }
-        console.log("exception ", req.params.id);
-        if (!question.length) {
-          console.log("Q : ", question);
-          return res.status(200).json({ success: true, data: {} });
-        }
-        questions.findOne({ _id: question[0]._id }, (er, ques) => {
-          if (er) {
+      },
+      { $sample: { size: 1 } },
+    ],
+    (err, question) => {
+      if (err) {
+        return res.status(400).json({ success: false, error: err });
+      }
+      console.log("exception ", req.params.id);
+      if (!question.length) {
+        // console.log("Q : ", question);
+        return res.status(200).json({ success: true, data: {} });
+      }
+      questions.findOneAndUpdate(
+        { _id: question[0]._id },
+        { $set: { isProcessing: true } },
+        { returnOriginal: false, useFindAndModify: false },
+        (err, ques) => {
+          if (err) {
             return res.status(404).json({
               er,
               message: "Question not found!",
             });
           }
-          ques.isProcessing = true;
-          ques
-            .save()
-            .then(() => {
-              console.log("Q : ", ques);
-              return res.status(200).json({
-                success: true,
-                data: ques,
-                message: "Question fetched!",
-              });
-            })
-            .catch((error) => {
-              return res.status(404).json({
-                error,
-                message: "Question not fetched!",
-              });
-            });
-        });
-      }
-    )
-    .catch((err) => console.log(err));
+          console.log("isProcessing ", ques);
+          return res.status(200).json({
+            success: true,
+            data: ques,
+            message: "Question fetched!",
+          });
+        }
+      );
+    }
+  );
+  //     questions.findOne({ _id: question[0]._id }, (er, ques) => {
+  //       if (er) {
+  //         return res.status(404).json({
+  //           er,
+  //           message: "Question not found!",
+  //         });
+  //       }
+  //       ques.isProcessing = true;
+  //       ques
+  //         .save()
+  //         .then(() => {
+  //           // console.log("Q : ", ques);
+  //           return res.status(200).json({
+  //             success: true,
+  //             data: ques,
+  //             message: "Question fetched!",
+  //           });
+  //         })
+  //         .catch((error) => {
+  //           return res.status(404).json({
+  //             error,
+  //             message: "Question not fetched!",
+  //           });
+  //         });
+  //     });
+  //   }
+  // )
+  // .catch((err) => console.log(err));
 };
 
 releaseQuestion = async (req, res) => {
-  questions.findOne({ _id: req.params.id }, (err, question) => {
-    if (err) {
-      if (req.params.id === 0) {
-        return res.status(200).json({
-          success: true,
-        });
-      } else {
-        return res.status(404).json({
-          err,
-          message: "Question not found!",
-        });
+  if (req.params.id === 0) {
+    console.log("Can't release zero !");
+    return res.status(200).json({
+      err,
+      message: "init no lock",
+    });
+  }
+  console.log(req.params.id);
+  questions.findOneAndUpdate(
+    { _id: req.params.id },
+    { $set: { isProcessing: false } },
+    { returnOriginal: false, useFindAndModify: false },
+    (err, question) => {
+      if (err) {
+        if (req.params.id === 0) {
+          return res.status(200).json({
+            success: true,
+          });
+        } else {
+          return res.status(404).json({
+            err,
+            message: "Question not found!",
+          });
+        }
       }
-    }
-    console.log("Releasing: ", req.params.id);
-    question.isProcessing = false;
-    question
-      .save()
-      .then(() => {
-        return res.status(200).json({
-          success: true,
-          result: question,
-          message: "Question updated!",
-        });
-      })
-      .catch((error) => {
-        return res.status(404).json({
-          error,
-          message: "Question not updated!",
-        });
+      console.log("Question released! ", question);
+      return res.status(200).json({
+        success: true,
+        result: question,
+        message: "Question released!",
       });
-  });
+    }
+  );
+  // questions.findOne({ _id: req.params.id }, (err, question) => {
+  //   if (err) {
+  //     if (req.params.id === 0) {
+  //       return res.status(200).json({
+  //         success: true,
+  //       });
+  //     } else {
+  //       return res.status(404).json({
+  //         err,
+  //         message: "Question not found!",
+  //       });
+  //     }
+  //   }
+  //   console.log("Releasing back: ", req.params.id);
+  //   question.isProcessing = false;
+  //   question
+  //     .save()
+  //     .then(() => {
+  //       return res.status(200).json({
+  //         success: true,
+  //         result: question,
+  //         message: "Question updated!",
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       return res.status(404).json({
+  //         error,
+  //         message: "Question not updated!",
+  //       });
+  //     });
+  // });
 };
 
 // getQuestion = async (req, res) => {
@@ -135,6 +194,7 @@ getQuestionCount = async (req, res) => {
   await questions
     .find(
       {
+        isProcessing: { $eq: false },
         is_valid: { $eq: false },
         ignore: { $eq: false },
       },
@@ -147,6 +207,7 @@ getQuestionCount = async (req, res) => {
           console.log("COUNT ", question.length);
           return res.status(200).json({ success: true, data: question.length });
         }
+        console.log("COUNT ", question);
         console.log("COUNT ", question.length);
         return res.status(200).json({ success: true, data: question.length });
       }
