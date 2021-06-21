@@ -106,6 +106,7 @@ class topic extends Component {
 
   render() {
     const question_count = this.props.question_count;
+    const question_id = this.props.question_id;
     let data = this.props.topic_state;
     const selectedTopic = this.props.topic_state.selectedTopic;
     const topic_data = [];
@@ -136,7 +137,7 @@ class topic extends Component {
               console.log("HandleselectedOption", selectedTopic);
             }}
             options={topic_data}
-            isDisabled={!question_count}
+            isDisabled={!question_count && !question_id}
           />
           <SButton>
             {/* <AddButton /> */}
@@ -156,6 +157,7 @@ class topic extends Component {
 
 const mapStateToProps = (state) => ({
   question_count: state.question_state.count,
+  question_id: state.question_state.question_data._id,
   topic_state: state.topic_state,
 });
 
