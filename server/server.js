@@ -6,7 +6,6 @@ require("./strategies/JwtStrategy");
 require("./strategies/LocalStrategy");
 require("./authenticate");
 const cors = require("cors");
-const socketIo = require("socket.io");
 const cookieParser = require("cookie-parser");
 const db = require("./config/mongodb.config");
 const Router = require("./routes/router");
@@ -28,35 +27,6 @@ app.use((req, res, next) => {
   );
   next();
 });
-// app.put("/api/beacon", (req, res, next) => {
-//   console.log(
-//     `BEACON ${beaconCounter++} RECEIVED AT ${new Date().toISOString()} with body ${
-//       req.body
-//     }`
-//   );
-//   question.findOneAndUpdate(
-//     { _id: req.params.id },
-//     { $set: { isProcessing: false } },
-//     { new: true },
-//     (err, question) => {
-//       if (err) {
-//         // if (req.params.id === 0) {
-//         //   return res.status(200).json({
-//         //     success: true,
-//         //   });
-//         // } else {
-//         //   return res.status(404).json({
-//         //     err,
-//         //     message: "Question not found!",
-//         //   });
-//         // }
-//         console.log("Something went wrong!");
-//       }
-//       console.log("Question released! ", question);
-//     }
-//   );
-//   res.sendStatus(204);
-// });
 require("dotenv").config();
 
 const apiPort = process.env.PORT;
@@ -90,27 +60,6 @@ app.get("/", (req, res) => {
   res.send({ status: "success" });
 });
 const httpsServer = https.createServer(httpsOptions, app);
-// const io = socketIo(httpsServer, {
-//   cors: {
-//     origin: "http://localhost:3001",
-//     allowedHeaders: ["my-custom-header"],
-//     methods: ["GET", "POST"],
-//     credentials: true,
-//   },
-// });
-
-// io.on("connection", (socket) => {
-//   console.log(`Client ${socket.id} connected`);
-//   socket.on("disconnect", () => {
-//     console.log(`Client ${socket.id} disconnected`);
-//   });
-//   socket.on("manual-disconnection", function (data) {
-//     console.log("User unlocked their Question : " + data);
-//   });
-//   socket.on("connect_error", (err) => {
-//     console.log(`connect_error due to ${err.message}`);
-//   });
-// });
 
 httpsServer.listen(apiPort, () =>
   console.log(`Server running on port ${apiPort}`)
