@@ -58,7 +58,7 @@ const Register = () => {
         <FormGroup label="Username" labelFor="username-register">
           <InputGroup
             id="username-register"
-            type="username-register"
+            type="text"
             placeholder="Username"
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -67,7 +67,7 @@ const Register = () => {
           <InputGroup
             id="password-register"
             placeholder="Password"
-            type="password-register"
+            type="password"
             onChange={(e) => setPassword(e.target.value)}
           />
         </FormGroup>

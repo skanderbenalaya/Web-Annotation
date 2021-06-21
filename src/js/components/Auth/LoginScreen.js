@@ -55,7 +55,7 @@ const Login = () => {
           <InputGroup
             id="username-login"
             placeholder="Username"
-            type="username-login"
+            type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -64,7 +64,7 @@ const Login = () => {
           <InputGroup
             id="password-login"
             placeholder="Password"
-            type="password-login"
+            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
