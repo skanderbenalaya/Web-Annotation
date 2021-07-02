@@ -30,3 +30,11 @@ The Structure of the Documents to be inserted are as follows :
     ]
 }
 ```
+
+### Run
+
+Make sure the python script and the docx file are in the same folder. Then run the following command:
+
+```
+> python DoctoObject.py
+```
