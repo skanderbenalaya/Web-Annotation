@@ -161,16 +161,6 @@ router.get("/auth/logout", verifyUser, (req, res, next) => {
   );
 });
 
-// router.get("/auth/user", verifyUser, userCtrl.getUser);
-// router.get("/auth/logout", verifyUser, userCtrl.logOut);
-// router.post("/auth/register", userCtrl.signupUser);
-// router.post(
-//   "/auth/login",
-//   passport.authenticate("local"),
-//   userCtrl.signinUser
-// );
-// router.post("/auth/refreshtoken", userCtrl.refreshToken);
-
 router.get("/topic", topicCtrl.getOnlyTopics);
 router.put("/topic/:topic", topicCtrl.modifyTopic);
 router.delete("/topic/:topic", topicCtrl.deleteTopic);
@@ -187,9 +177,6 @@ router.put("/question/:id", questionCtrl.modifyQuestion);
 router.put("/question/ignore/:id", questionCtrl.ignoreQuestion);
 router.put("/question/validate/:id", questionCtrl.validateQuestion);
 router.put("/question/release/:id", questionCtrl.releaseQuestion);
-  // console.log(
-  //   `BEACON TO RELEASE RECEIVED AT ${new Date().toISOString()}`
-  // );
 router.delete("/question/:id", questionCtrl.removeQuestion);
 
 router.post("/answer", answerCtrl.addAnswer);
