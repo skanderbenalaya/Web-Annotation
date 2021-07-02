@@ -34,7 +34,7 @@ Make sure the server and database are configured and running.
 To insert a list of questions use the following api path :
 `localhost:3000/api/question/multi`
 with a body as follows :
-`
+```
 [
     {
         "question": "Question 1"
@@ -49,7 +49,7 @@ with a body as follows :
         "question": "Question 4"
     }
 ]
-`
+```
 
 
 ## How to start both client and server
