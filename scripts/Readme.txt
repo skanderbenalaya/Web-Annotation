@@ -1,21 +1,23 @@
-This python script is used to extract docx data then insert them as MongoDB documents.
+# This python script is used to extract docx data then insert them as MongoDB documents.
 
-Requiered libraries:
+## Requirements
 
 pip install python-docx
 
 pip install pymongo
 
-
+### Configuration
 
 Make sure to check the following variables are set correctly:
 
+```
 Database name : Chatbot-entries
 Collection Name : answers
 Input Docx Name : <Your File Name>
+```
 
 The Structure of the Documents to be inserted are as follows :
-
+```
 {
     A_id : null
     topic : "topic1"
@@ -27,3 +29,4 @@ The Structure of the Documents to be inserted are as follows :
         {question:"question N"}
     ]
 }
+```
