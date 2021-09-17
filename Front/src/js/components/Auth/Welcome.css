@@ -1,0 +1,54 @@
+.logout-span {
+  position: absolute;
+  top: 0px;
+  margin-top: 1vw;
+  right: 10px;
+}
+@media screen and (min-width: 664px) {
+  .logout-span {
+    margin-top: 0.85vw;
+  }
+}
+@media screen and (min-width: 768px) {
+  .logout-span {
+    margin-top: 0.65vw;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .logout-span {
+    margin-top: 0.5vw;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .logout-span {
+    margin-top: 0.5vw;
+  }
+}
+
+.logout-button {
+  font-size: 0.85em;
+  min-height: 10px;
+  min-width: 20px;
+  outline: none;
+}
+@media screen and (min-width: 664px) {
+  .logout-button {
+    font-size: 0.9em;
+  }
+}
+@media screen and (min-width: 768px) {
+  .logout-button {
+    font-size: 0.9em;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .logout-button {
+    font-size: 15px;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .logout-button {
+    font-size: 15px;
+
+  }
+}
