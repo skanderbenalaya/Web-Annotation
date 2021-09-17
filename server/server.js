@@ -1,5 +1,5 @@
 const fs = require("fs");
-const https = require("https");
+const http = require("http");
 const express = require("express");
 const passport = require("passport");
 require("./strategies/JwtStrategy");
@@ -12,10 +12,6 @@ const Router = require("./routes/router");
 const swaggerUi = require("swagger-ui-express"),
   swaggerDocument = require("./swagger.json");
 
-const httpsOptions = {
-  key: fs.readFileSync("./config/server.key"),
-  cert: fs.readFileSync("./config/server.cert"),
-};
 const mongoose = require("mongoose");
 const questions = require("./models/question.model");
 
@@ -59,8 +55,8 @@ app.use("/api", Router);
 app.get("/", (req, res) => {
   res.send({ status: "success" });
 });
-const httpsServer = https.createServer(httpsOptions, app);
+const httpServer = http.createServer(app);
 
-httpsServer.listen(apiPort, () =>
+httpServer.listen(apiPort, () =>
   console.log(`Server running on port ${apiPort}`)
 );
