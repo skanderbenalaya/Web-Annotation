@@ -25,6 +25,9 @@ PORT = 3000 //server port
 Once the required components are installed, run the following command:
 
 ```
+> cd server
+> npm install
+> cd ..
 > npm install
 ```
 
