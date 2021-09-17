@@ -50,7 +50,7 @@ class question extends Component {
             this.props.UnlockQuestion(question_id);
             window.onunload = function () {
               fetch(
-                `https://localhost:3000/api/question/release/${question_id}`,
+                `http://localhost:3000/api/question/release/${question_id}`,
                 {
                   method: "PUT",
                   keepalive: true,
